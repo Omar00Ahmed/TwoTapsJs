@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>Document</title>
+    
+    <link rel="stylesheet" href="style.css">
+</head>
+<body > 
+    <audio src="../soundEffects/entering.mp3" id="entering" ></audio>    
+    
+
+    <div class="container" data-dark="" id="pageContainer">
+
+        <div class="header submenu" data-dark="">
+            <h3 class="GameName" >2-tabs</h3>
+            <div class="centerdButtons" id="centerdButtons">
+                <a href="#">Home</a>
+                <a href="#">About</a>
+                <a href="#" id="logoutBtn">Logout</a>
+            </div>
+            <div ><button class="darkModeButton" data-dark="" id="buttonD">Dark</button></div>
+        </div>
+
+        <audio src="../soundEffects/addingPoint.wav" id="addingPointSound" ></audio>
+        <div class="playerList submenu" id="playerList" data-dark="">
+            
+            
+            
+        </div>
+
+        <div class="drawarea submenu" id="DrawArea">
+            <div class="infoBox" id="infoBox">
+                
+            </div>
+            <audio src="../soundEffects/tik.wav" id="tikAudio" ></audio>
+
+            <div class="timer" id="timer">120</div>
+            <div class="drawerName">
+                <div class="nameOfDrawer" id="nameOfDrawer">no one</div>
+                <div id="Word"> is drawing ..</div></div>
+
+
+            <canvas id="canvs" style="border-radius: 30px;"   ></canvas>
+
+            <button class="toolMenu" id="toolM"><img src="/images/menuIcon.png" alt="" width="25px" height="25px"></button>
+            <div class="tools" id="tools">
+                <label for="lineColor" id="colorDisplay" class="colorDisplay"></label>
+                <input type="color" id="lineColor" class="colorInput" onchange="updateColor()">
+                <input type="range" id="lineWidth" min="0.5" max="40" value="3">
+                <button id="clr"> clr</button>
+            </div>
+        </div>
+
+        <div class="chatContainer submenu" id="containerC" data-dark="">
+
+            <div class="legend">Answers</div>
+
+            <div class="chatMessages" id="chatMessages">
+
+            </div>
+
+            <div class="chatInputs">
+                <input id="chatInput" type="text" placeholder="Guess The Draw" data-dark="">
+                <button id="chatButtonInput">Send</button>
+            </div>
+        </div>
+
+        <audio src="../soundEffects/someoneDraw.wav" id="requestSound" ></audio>
+
+        <div class="requestContainer submenu" id="containerR" data-dark="">
+            <div class="legend">current player </div>
+            <img src="../images/Avatars/26.png" alt="" id="playerInfoImage">
+            <div class="requestInputs" data-dark="">
+                <div id="requestButtonInput"   data-dark="" > 
+                    <span id="playerInfoName"> Hamo</span> 
+                    <span class="playerPlacement" id="playerInfopts"> #1</span>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <script src="scrpt.js"></script>
+</body>
+</html>

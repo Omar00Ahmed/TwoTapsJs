@@ -1,0 +1,188 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
+
+body {
+  background: #3586ff ;
+  /* background-image: url(images/dodle.png); */
+  /* background-size: 500px; */
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  transition: 200ms ease-in-out;
+}
+
+
+body::before{
+  content: ' ';
+  display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.15;
+    background-image: url('../images/dodle.png');
+    background-position: 50% 0;
+    background-size: 600px;
+  }
+  
+  body.dark{
+    background: #1b1e22;
+  }
+  body.dark::before{
+    filter: brightness(4);
+  }
+  
+  
+  .home .container {
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  gap: 70px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 90%;
+  height: 90%;
+  padding: 15px;
+  border-radius: 15px;
+  z-index: 999;
+  pointer-events: none;
+  
+}
+
+
+
+
+
+.container .pageNameContainer,
+.container .loginContainer {
+  width: 40%;
+  margin: 10px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  justify-content: center;
+  color: #fff;
+  border-radius: 20px;
+  
+}
+
+.container .pageNameContainer {
+  padding-left: 70px;
+}
+.pageNameContainer .title {
+  font-size: 100px;
+  margin-left: -10px;
+  color: #fff;
+  
+}
+
+.pageNameContainer .txt{
+    font-weight: 500;
+}
+
+.container .loginContainer {
+  background-color: #fff;
+  width: 800px;
+  height: 500px;
+  pointer-events: all;
+  /* z-index: 999; */
+}
+
+
+.loginContainer .imageContainer {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  overflow: auto;
+  height: 330px;
+  width: 95%;
+  padding: 1px;
+  border-radius: 20px;
+  /* background-color: #3586ff50; */
+  margin: 0 auto 30px;
+  pointer-events: all;
+}
+.avatarContainer {
+  width: 120px;
+  height: 120px;
+  margin: 5px;
+  cursor: pointer;
+  background-color: #fff;
+  border-radius: 10px;
+  justify-content: center;
+  padding: 10px;
+  align-items: center;
+}
+.avatarContainer .avatar {
+  padding: 10px;
+  width: 100%;
+  height: 100%;
+  transition: 100ms ease-in-out;
+  border-radius: 50%;
+}
+
+.avatarContainer .avatar:hover{
+    /* padding: 0; */
+    border: 3px dotted #70faae70;
+    /* width: 110%;
+    height: 110%; */
+}
+.loginContainer input {
+  background-color: #fff;
+  border: none;
+  border-bottom: #3586ff 2px solid;
+  color: #3586ff;
+  padding: 7px;
+  width: 50%;
+  margin: 0 auto;
+  text-align: center;
+  font-size: 20px;
+  outline: none;
+}
+.loginContainer input::placeholder{
+    color: #3586ff85;
+    font-weight: 100;
+    font-size: 18px;
+}
+
+.loginContainer button,
+.pageNameContainer button {
+  width: 25%;
+  padding: 7px;
+  margin: 10px auto;
+  background-color: #3586ff;
+  color: #fff;
+  font-size: 15px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: 200ms ease-in-out;
+}
+.pageNameContainer button {
+  background-color: #fff;
+  color: #3586ff;
+  margin-top: 20px;
+  
+}
+
+
+
+
+#canvas {
+  width: 100%;
+  /* background: #3586ff; */
+  height: 100vh;
+  /* background: red; */
+  pointer-events: auto;
+  z-index: 0;
+  position: absolute;
+}
