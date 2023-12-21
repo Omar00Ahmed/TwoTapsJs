@@ -14,10 +14,12 @@ var ws;
 let someoneDrawing = false
 var choosenword = 'BakBak';
 let WhoDraw;
+var pointsToAdd = 10;
 let playersAnswered = 0
 var answerList = []
 
 var timerInterval;
+
 
 var waitingToDraw = true
 
@@ -192,10 +194,14 @@ wss.on('connection',function(ws,req){
                 for(let i = 0 ; i < playersArr.length;i++){
                     
                     if(playersArr[i].playerName == object.sender){
-                        playersArr[i].pts += 8
+                        playersArr[i].pts += pointsToAdd
+                        if(pointsToAdd != 3 && pointsToAdd > 3){
+                            pointsToAdd = pointsToAdd -1
+                        }
                         let drawerinlist =playersArr.findIndex((playerDrawer) => playerDrawer.playerName == WhoDraw)
-                        playersArr[drawerinlist].pts += 5
-                        console.log(playersArr)
+                        playersArr[drawerinlist].pts += 3
+                        console.log(playersArr[drawerinlist].playerName,pointsToAdd)
+                        // console.log(playersArr)
                         playersAnswered += 1
                         // console.log(answerList.length)
                         
@@ -210,8 +216,10 @@ wss.on('connection',function(ws,req){
                         answerList.push(object.sender)
 
                         if(answerList.length == playersArr.length-1){
-                            roundEnd()
                             playersAnswered = 0
+                            setTimeout(() => {
+                                roundEnd()
+                            }, 0);
                         }
                     }
                     
@@ -254,11 +262,13 @@ wss.on('connection',function(ws,req){
         
 
         function roundStart(object) {
+            console.log('ha')
             if (!someoneDrawing) {
                 let wordOne = randomWord();
                 let wordTwo = randomWord();
                 console.log(wordOne, wordTwo);
-        
+                console.log(`the cuurent index is : ${drawIndex}`)
+                console.log(playersArr[drawIndex].playerName)
                 WhoDraw = playersArr[drawIndex++].playerName;
                 if (drawIndex == playersArr.length) {
                     drawIndex = 0;
@@ -322,7 +332,7 @@ wss.on('connection',function(ws,req){
         }
         
 
-        function timerFunc(time = 120,state){
+        function timerFunc(time = 60,state){
             
             var timer = time
              timerInterval = setInterval(() => {
@@ -332,6 +342,9 @@ wss.on('connection',function(ws,req){
                 }
                 emit(msgcont,'All')
                 --timer
+                if(timer % 20 == 0 && pointsToAdd > 3){
+                    pointsToAdd = pointsToAdd - 1
+                }
                 if(timer == 0 && state == 'choose'){
                     roundEnd('noOneChoosed')
                     
@@ -351,26 +364,74 @@ wss.on('connection',function(ws,req){
             }else{
                 nxtplr = null
             }
+
+            
             clearInterval(timerInterval)
+            pointsToAdd = 7;
             answerList.splice(0,answerList.length)
             if(reason == 'noOneChoosed'){
                 res = `prev Player didn't choose a word`
             }else{
                 res = `round ended , the word was ${choosenword}`
             }
-            msgcont = {
-                topic:'endTime',
-                word:choosenword,
-                reason:res,
-                nextPlayer:nxtplr
-            }
-            choosenword = Math.random()*156410
-            emit(msgcont,'All')
+            
             someoneDrawing = false
-            setTimeout(() => {
-                timer = 20
-                roundStart()
-            }, 4000);
+            const playersWithMoreThan20Pts = playersArr.filter(player => player.pts >= 180);
+            
+            // check for if round ended or not
+            if (playersWithMoreThan20Pts.length > 0) {
+                const sortedPlayers = playersArr.slice();
+                sortedPlayers.sort((a, b) => b.pts - a.pts);
+                
+                
+                // playersArr.sort((a, b) => b.pts - a.pts);
+                // console.log(playersArr)
+                // console.log(newArr)
+                var firstThreePlayers = []
+                for (let i = 0; i < Math.min(3, sortedPlayers.length); i++) {
+                    const player = sortedPlayers[i];
+                    firstThreePlayers.push([player.playerName,player.pts,player.avatar])
+                    player.pts = 0;
+                    // console.log(`Player Name: ${player.playerName}, Pts: ${player.pts} , avatar : ${player.avatar}`);
+                }
+                msgcont = {
+                    topic:"GAMEEND",
+                    content:firstThreePlayers,
+                    owner:owner
+                }
+                emit(msgcont,'All')
+                
+                gameState = false
+                
+                let showplayers = {
+                    topic:'sendPlayers',
+                    sender:object.name,
+                    content:playersArr
+                }
+                emit(showplayers,'All')
+                
+                console.log(firstThreePlayers)
+                drawIndex = 0
+                console.log(drawIndex)
+                someoneDrawing = false
+            } else {
+                
+                msgcont = {
+                    topic:'endTime',
+                    word:choosenword,
+                    reason:res,
+                    nextPlayer:nxtplr
+                }
+                choosenword = Math.random()*156410
+                emit(msgcont,'All')
+
+                setTimeout(() => {
+                    timer = 60
+                    roundStart()
+                }, 4000);
+            }
+
+            
         }
         // console.log(`cordinates : (${object.x},${object.y})`)
 
