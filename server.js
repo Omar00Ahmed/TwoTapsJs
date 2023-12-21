@@ -376,7 +376,7 @@ wss.on('connection',function(ws,req){
             }
             
             someoneDrawing = false
-            const playersWithMoreThan20Pts = playersArr.filter(player => player.pts >= 180);
+            const playersWithMoreThan20Pts = playersArr.filter(player => player.pts >= 30);
             
             // check for if round ended or not
             if (playersWithMoreThan20Pts.length > 0) {
